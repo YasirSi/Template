@@ -1,19 +1,25 @@
 <?php include('header.php');
-include('sidebar.php');
-include("config.php");
+	 include('sidebar.php');
+	 include('connect.php');
 
-if(isset($_POST['submit']))
-{
-  $username = isset($_POST['username']) ? ($_POST['username']) : '';
-  $password = isset($_POST['password']) ? ($_POST['password']) : '';
-  $address = isset($_POST['address']) ? ($_POST['address']) : '';
-  $email = isset($_POST['email']) ? ($_POST['email']) : '';
-  $insert = "INSERT INTO users(`username`, `password`, `address`,`email`) VALUES('$username', '$password', '$address',  '$email')";
-  		mysqli_query($connect, $insert);
-  	}
 
- ?>
+	if(isset($_POST['submit']))
+	{
+		$name = isset($_POST['name']) ? ($_POST['name']) : '';
+		$price = isset($_POST['price']) ? ($_POST['price']) : '';
+		$image = isset($_POST['image']) ? ($_POST['image']) : '';
+		$categories = isset($_POST['categories']) ? ($_POST['categories']) : '';
+		$tags = isset($_POST['tags']) ? ($_POST['tags']) : '';
+		$description = isset($_POST['description']) ? ($_POST['description']) : '';
 
+	$insert = "INSERT INTO products(`name`, `price`, `image`,`categories`,`tags`,`description`)
+	VALUES('$name', '$price', '$image',  '$categories','$tags','$description')";
+		mysqli_query($conn, $insert);
+
+	}
+
+
+	?>
 		<div id="main-content"> <!-- Main Content Section with everything -->
 
 			<noscript> <!-- Show a notification if the user has disabled javascript -->
@@ -29,14 +35,13 @@ if(isset($_POST['submit']))
 			<p id="page-intro">What would you like to do?</p>
 
 
-
 			<div class="clear"></div> <!-- End .clear -->
 
 			<div class="content-box"><!-- Start Content Box -->
 
 				<div class="content-box-header">
 
-					<h3>Products</h3>
+					<h3>Content box</h3>
 
 					<ul class="content-box-tabs">
 						<li><a href="#tab1" class="default-tab">Manage</a></li> <!-- href must be unique and match the id of target div -->
@@ -63,11 +68,13 @@ if(isset($_POST['submit']))
 							<thead>
 								<tr>
 								   <th><input class="check-all" type="checkbox" /></th>
-								   <th>Column 1</th>
-								   <th>Column 2</th>
-								   <th>Column 3</th>
-								   <th>Column 4</th>
-								   <th>Column 5</th>
+								   <th>Name</th>
+								   <th>Price</th>
+								   <th>Image</th>
+								   <th>categories</th>
+								   <th>Tags</th>
+								   <th>Description</th>
+								   <th>Action</th>
 								</tr>
 
 							</thead>
@@ -112,24 +119,28 @@ if(isset($_POST['submit']))
 									</td>
 								</tr>
 
-                <?php
-									$query = mysqli_query($connect, "SELECT * FROM users");
+								<?php
+									$query = mysqli_query($conn, "SELECT * FROM products");
 
 									while($row = mysqli_fetch_array($query))
 									{
-									  	echo"<tr>";
+										echo"<tr>";
 											echo'<td> <input type="checkbox" /></td>';
-											echo "<td>" . $row['username'] ."</td>";
-											echo "<td>" . $row['address'] ."</td>";
-											echo "<td>" . $row['email'] ."</td>";
+											echo "<td>" . $row['name'] ."</td>";
+											echo "<td>" . $row['price'] ."</td>";
+											echo "<td>" . $row['image'] ."</td>";
+											echo "<td>" . $row['categories'] ."</td>";
+											echo "<td>" . $row['tags'] ."</td>";
+											echo "<td>" . $row['description'] ."</td>";
 											echo "<td>";
-											echo "<a href='#' title='Edit'><img src='resources/images/icons/pencil.png' alt='Edit' /></a>";
-											echo "<a href='#' title='Delete'><img src='resources/images/icons/cross.png' alt='Delete'/></a>";
-											echo "<a href='#' title='Edit Meta'><img src='resources/images/icons/hammer_screwdriver.png' alt='Edit Meta' /></a>";
-							 			  echo "</td>";
-								   		echo"</tr>";
+												echo "<a href='#' title='Edit'><img src='resources/images/icons/pencil.png' alt='Edit' /></a>";
+												echo "<a href='#' title='Delete'><img src='resources/images/icons/cross.png' alt='Delete'/></a>";
+												echo "<a href='#' title='Edit Meta'><img src='resources/images/icons/hammer_screwdriver.png' alt='Edit Meta' /></a>";
+											echo "</td>";
+										echo"</tr>";
 									}
 								?>
+
 							</tbody>
 
 						</table>
@@ -138,49 +149,52 @@ if(isset($_POST['submit']))
 
 					<div class="tab-content" id="tab2">
 
-						<form action="#" method="post">
+						<form action="products.php" method="post">
 
-              <fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
 								<p>
-									<label>User Name</label>
-										<input class="text-input small-input" type="text" id="username" name="username" /> <span style='display:none' class="input-notification error png_bg">User Name Alredy Exist.</span><!-- Classes for input-notification: success, error, information, attention -->
-										<br /><small>User Name has to be Unique</small>
+									<label>Name</label>
+										<input class="text-input small-input" type="text" id="small-input" name="small-input" />  <!-- Classes for input-notification: success, error, information, attention -->
+										<br />
 								</p>
 
 								<p>
-									<label>Password</label>
-									<input class="text-input medium-input datepicker" type="password" id="password" name="password" />
+									<label>Price</label>
+									<input class="text-input medium-input datepicker" type="text" id="medium-input" name="medium-input" />
 								</p>
+
+								 <form action="/action_page.php">
+								 <label for="myfile">Image</label>
+								 <input type="file" id="myfile" name="myfile"><br><br>
+								</form>
+
+
+
 
 								<p>
-									<label>Address</label>
-									<input class="text-input large-input" type="text" id="address" name="address" />
-								</p>
-
-								<p>
-									<label>Email Id</label>
-									<input class="text-input large-input" type="email" id="email" name="email" />
-								</p>
-
-
-
-								<!-- IF NEEDED FOR A ROLE -->
-								<!-- <p>
-									<label>This is a drop down list</label>
+									<label>Catogories</label>
 									<select name="dropdown" class="small-input">
-										<option value="option1">Option 1</option>
-										<option value="option2">Option 2</option>
-										<option value="option3">Option 3</option>
-										<option value="option4">Option 4</option>
+										<option value="option1">Men</option>
+										<option value="option2">Women</option>
+										<option value="option3">Kids</option>
 									</select>
-								</p> -->
+								</p>
+								<p>
+									<label>Tags</label>
+									<input type="checkbox" name="checkbox1" /> Fashion <input type="checkbox" name="checkbox2" /> Ecommerce <input type="checkbox" name="checkbox2" /> Shop <input type="checkbox" name="checkbox2" /> Hand Bag <input type="checkbox" name="checkbox2" /> Laptop <input type="checkbox" name="checkbox2" /> Headphone
+								</p>
 
 								<p>
-									<input class="button" type="submit" name="submit" value="Submit" />
+									<label>Description</label>
+									<textarea class="text-input textarea wysiwyg" id="textarea" name="textfield" cols="79" rows="15"></textarea>
+								</p>
+
+								<p>
+									<input class="button" type="submit" value="Submit" />
 								</p>
 
 							</fieldset>
+
 							<div class="clear"></div><!-- End .clear -->
 
 						</form>
@@ -191,57 +205,12 @@ if(isset($_POST['submit']))
 
 			</div> <!-- End .content-box -->
 
-		<!--	<div class="content-box column-left">
 
-				<div class="content-box-header">
-
-					<h3>Content box left</h3>
-
-				</div> --><!-- End .content-box-header -->
-
-				<!--<div class="content-box-content">
-
-					<div class="tab-content default-tab">
-
-						<h4>Maecenas dignissim</h4>
-						<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in porta lectus. Maecenas dignissim enim quis ipsum mattis aliquet. Maecenas id velit et elit gravida bibendum. Duis nec rutrum lorem. Donec egestas metus a risus euismod ultricies. Maecenas lacinia orci at neque commodo commodo.
-						</p>
-
-					</div> --><!-- End #tab3 -->
-
-			<!--	</div>--> <!-- End .content-box-content -->
-
-		<!--	</div> --><!-- End .content-box -->
-
-		<!--	<div class="content-box column-right closed-box">
-
-				<div class="content-box-header"> --><!-- Add the class "closed" to the Content box header to have it closed by default -->
-
-				<!--	<h3>Content box right</h3>
-
-				</div> --><!-- End .content-box-header -->
-
-			<!--	<div class="content-box-content">
-
-					<div class="tab-content default-tab">
-
-						<h4>This box is closed by default</h4>
-						<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in porta lectus. Maecenas dignissim enim quis ipsum mattis aliquet. Maecenas id velit et elit gravida bibendum. Duis nec rutrum lorem. Donec egestas metus a risus euismod ultricies. Maecenas lacinia orci at neque commodo commodo.
-						</p>
-
-					</div>--> <!-- End #tab3 -->
-
-			<!-->	</div> --><!-- End .content-box-content -->
-
-		<!--	</div> --><!-- End .content-box -->
 			<div class="clear"></div>
 
 
 			<!-- Start Notifications -->
-		  <!--
-
+			<!--
 			<div class="notification attention png_bg">
 				<a href="#" class="close"><img src="resources/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
 				<div>
@@ -268,8 +237,8 @@ if(isset($_POST['submit']))
 				<div>
 					Error notification. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis fermentum luctus, libero.
 				</div>
-			</div>-->
-
+			</div>
+			-->
 			<!-- End Notifications -->
 
 			<?php include('footer.php'); ?>
